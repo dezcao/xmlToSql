@@ -1,0 +1,60 @@
+<document>
+	<query>
+		<sql id="tailQuery">
+			ORDER BY ${ orderByColumn} ${direction}
+			<if test="1 == 1">AND user_id = :user_id </if>
+			limit #{start}, #{end}
+		</sql>
+		<sql id="byName">
+			gropu by name!!!!
+		</sql>
+
+		<select id="getUser">
+				SELECT * FROM user
+			<if test="user_id">
+				WHERE user_id = :user_id
+				<if test="company.id == 'x' and company.name">
+				AND company_id = :company.id
+				</if>
+				<if test="1 == 1">
+				AND condition = 'type1'
+				</if>
+				<choose>
+					<when test="user_name == 'xxx'">
+						AND user_name = :user_name
+					</when>
+					<when test="user_id and company.name != 'Tiang Wei'">
+						AND user_name = 'Tiang Wei'
+					</when>
+					<otherwise>
+						<if test="company.id == 'x' and company.name">
+						AND company_id = 'x'
+						</if>
+						AND company_type = 'xType'
+					</otherwise>
+				</choose>
+				<foreach item="item" index="index" collection="girl.friends" 
+					open="AND (" separator="," close=")">
+						#{ item.name }
+						<if test="item.name == 'IU'">
+							, iu age is #{ item.age }
+						</if>
+				</foreach>
+			</if>
+
+			<include refid="tailQuery">
+				<property name="orderByColumn" value="user_id"/>
+				<property name="direction" value="ASC"/>
+				<property name="start" value="pagination.start"/>
+				<property name="end" value="pagination.end"/>
+			</include>
+			
+		</select>
+		<select id="getUserTest">
+			SELECT * FROM user
+			<if test="user_id">
+				WHERE user_id = :user_id
+			</if>
+		</select>
+	</query>
+</document>
