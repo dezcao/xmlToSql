@@ -1,6 +1,9 @@
 ### xmlToSql
 ```
-백엔드를 본격적으로 구성하기 전에 sql 관련 부분을 별도로 구현.
+백엔드를 본격적으로 구성하기 전에 sql parser 구현.
+
+database config 적용하거나 해당 부분 주석처리 후에 다음을 실행. 
+node poolTest.js
 ```
 - library :  mysql2, xmldoc
 - 작업내용 :  xml에 쿼리별 id를 부여하고 if, foreach, choose, include를 구현하였다.
