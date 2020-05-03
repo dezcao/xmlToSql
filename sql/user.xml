@@ -1,30 +1,36 @@
 <document>
 	<query>
 		<sql id="tailQuery">
-			ORDER BY ${ orderByColumn} ${direction}
+			ORDER BY ${ orderByColumn } ${direction}
 			<if test="1 == 1">AND user_id = :user_id </if>
 			limit #{start}, #{end}
+			<include refid="byName"></include>
 		</sql>
 		<sql id="byName">
-			gropu by name!!!!
+			<if test="'include' = 'include'">
+				gropu by name!!!!
+			</if>
 		</sql>
 
 		<select id="getUser">
 				SELECT * FROM user
-			<if test="user_id">
+			<if test="user_id == 1">
 				WHERE user_id = :user_id
 				<if test="company.id == 'x' and company.name">
 				AND company_id = :company.id
 				</if>
-				<if test="1 == 1">
+				<if test="1 == 1 ">
 				AND condition = 'type1'
+				</if>
+				<if test="girl">
+				AND girl.friends[0].age == 38
 				</if>
 				<choose>
 					<when test="user_name == 'xxx'">
 						AND user_name = :user_name
 					</when>
-					<when test="user_id and company.name != 'Tiang Wei'">
-						AND user_name = 'Tiang Wei'
+					<when test="company.name != 'Tiang Wei'">
+						AND 'when Tiang Weei' == 'Tiang Wei'
 					</when>
 					<otherwise>
 						<if test="company.id == 'x' and company.name">
@@ -35,7 +41,7 @@
 				</choose>
 				<foreach item="item" index="index" collection="girl.friends" 
 					open="AND (" separator="," close=")">
-						#{ item.name }
+						#{ item.name }, #{ item.pan[0].name }
 						<if test="item.name == 'IU'">
 							, iu age is #{ item.age }
 						</if>

@@ -1,6 +1,6 @@
 // let Pool = require('./pool.js');
 const mysql = require('mysql2');
-let xmldoc = require('./xmldoc_1.1.0.js');
+let xmldoc = require('./xmldoc_2.2.2.js');
 let config = {
     host: 'localhost',
     user: 'root',
@@ -10,11 +10,10 @@ let config = {
     connectionLimit: 10,
     queueLimit: 0
 }
-const connection = mysql.createConnection(config);
-connection.config.namedPlaceholders = true;
+
 
 var fileName = 'user.xml';
-var sqlId = 'getUserTest';
+var sqlId = 'getUserTest'; // getUser
 var queryParam = {
     user_id: 1,
     user_name: 'jaepl',
@@ -28,17 +27,16 @@ var queryParam = {
     },
     girl: {
         friends: [
-            { name: 'Song Hye Gyo', age: 38 },
-            { name: 'Seo Hyeon', age: 28 },
-            { name: 'IU', age: 18 },
-            { name: 'park', age: 48 }
+            { name: 'Song Hye Gyo', age: 38 , pan: [ {name: 'goo', age: 15}, {name: 'park', age: 25} ]},
+            { name: 'Seo Hyeon', age: 28, pan: [ {name: 'goo2', age: 19}, {name: 'park2', age: 25} ] },
+            { name: 'IU', age: 18, pan: [ {name: 'goo3', age: 16}, {name: 'park3', age: 25} ] },
+            { name: 'park', age: 48, pan: [ {name: 'goo4', age: 17}, {name: 'park4', age: 25} ] }
         ]
     }
 }
 
 async function test() {
     let query = await xmldoc.queryParser(fileName, sqlId, queryParam);
-    console.log(query);
     const connection = mysql.createConnection(config);
     connection.config.namedPlaceholders = true;
     connection.query(
@@ -50,6 +48,8 @@ async function test() {
     );
 }
 
-test();
+test().catch(err => {
+    console.error(err);
+});
 
 
