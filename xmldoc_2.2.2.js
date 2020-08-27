@@ -26,6 +26,11 @@ module.exports = {
 				break;
 			}
 		}
+		
+		if (value === null) {
+			return value;
+		}
+		
 		value = (typeof value === 'string' ? `'${value}'` : value);
 		if (objectCheck && typeof value === 'object') {
 			return value.length ? true : Object.keys(value).length ? true : false;
