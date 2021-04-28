@@ -41,3 +41,51 @@ eval()은 JS 인터프리터를 사용해야 하기 때문에 다른 대안들�
 브라우저는 이에 대응하기 위해 기계 코드를 재작성해야 합니다.
 ```
 
+### 사용예
+```
+<select id="getUser">
+				SELECT * FROM user
+			<if test="user_id == 1">
+				WHERE user_id = :user_id
+				<if test="company.id == 'x' and company.name">
+				AND company_id = :company.id
+				</if>
+				<if test="1 == 1 ">
+				AND condition = 'type1'
+				</if>
+				<if test="girl">
+				AND girl.friends[0].age == 38
+				</if>
+				<choose>
+					<when test="user_name == 'xxx'">
+						AND user_name = :user_name
+					</when>
+					<when test="company.name != 'Tiang Wei'">
+						AND 'when Tiang Weei' == 'Tiang Wei'
+					</when>
+					<otherwise>
+						<if test="company.id == 'x' and company.name">
+						AND company_id = 'x'
+						</if>
+						AND company_type = 'xType'
+					</otherwise>
+				</choose>
+				<foreach item="item" index="index" collection="girl.friends" 
+					open="AND (" separator="," close=")">
+						#{ item.name }, #{ item.pan[0].name }
+						<if test="item.name == 'IU'">
+							, iu age is #{ item.age }
+						</if>
+				</foreach>
+			</if>
+
+			<include refid="tailQuery">
+				<property name="orderByColumn" value="user_id"/>
+				<property name="direction" value="ASC"/>
+				<property name="start" value="pagination.start"/>
+				<property name="end" value="pagination.end"/>
+			</include>
+			
+</select>
+```
+
